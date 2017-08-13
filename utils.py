@@ -1,4 +1,5 @@
-ejercicios = [[['img/a.png',50,50],['img/b.png'],['img/c.png'],['img/d.png']]]
+img = [['img/1.png',400, 'A'],['img/2.png',330, 'B'],['img/3.png',280, 'C'],['img/4.png',200, 'D']]
+font = [['img/a.png'],['img/b.png'],['img/c.png'],['img/d.png']]
 
 CURSOR = (
         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  ",
