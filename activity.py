@@ -7,7 +7,9 @@ import gtk
 resolution=(1200,900)
 
 class Main_Class():
-    resp_font = []
+    color = 163,231,240
+    font_size = 50
+    font_type = "Arial"
 
     def __init__(self):
         pygame.init()
@@ -15,7 +17,6 @@ class Main_Class():
         pygame.mouse.set_cursor((32,32), (1,1), * cursor)
         self.ventana=pygame.display.set_mode((resolution))
         pygame.display.set_caption("Dinosaurio XD")
-        self.mt = self.ran(img)
         self.principal()
         pygame.display.update()
 
@@ -29,6 +30,8 @@ class Main_Class():
         return x
 
     def principal(self):
+        self.resp_font = []
+        self.mt = self.ran(img)
         self.fondo = self.image_load('img/background.png')
         self.ventana.blit(self.fondo, (0, 0))
         self.load_img()
@@ -81,12 +84,31 @@ class Main_Class():
                         break
 
                 if exito:
-                    print "Bien echo"
+                    self.print_font("Buen Trabajo",420,70)
+                    self.principal()
+
                 else:
-                    print "Intenta nuevamente"
+                    self.print_font("Intente nuevamente",400,70)
                     del self.resp_font[:]
+
             else:
                 pass
+        except Exception, ex:
+            print ex
+
+    def print_font(self, text, x, y):
+        try:
+            texto = pygame.font.SysFont(self.font_type, self.font_size)
+            texto_present = texto.render(text,
+            True, (0,0,0), (self.color))
+            self.ventana.blit(texto_present,(x,y))
+            pygame.display.update()
+            pygame.time.wait(2000)
+            texto_present = texto.render(text,
+            True, (self.color), (self.color))
+            self.ventana.blit(texto_present,(x,y))
+            pygame.display.update()
+
         except Exception, ex:
             print ex
 
@@ -102,6 +124,7 @@ class Main_Class():
 
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     pos=pygame.mouse.get_pos()
+                    print pos
                     if self.array_rect[0].collidepoint(pos):
                         self.resp_font.append("A")
                         self.validate()
