@@ -30,6 +30,9 @@ class Main_Class():
         return x
 
     def principal(self):
+        self.pos_letter = 0
+        self.dic = {}
+        self.dic_letter = {}
         self.resp_font = []
         self.mt = self.ran(img)
         self.fondo = self.image_load('img/background.png')
@@ -41,14 +44,12 @@ class Main_Class():
     def load_img(self):
         try:
             x = 75
-            self.array = []
             self.resp = []
             for i in self.mt:
                 image = self.image_load(img[i][0])
                 rect = image.get_rect()
                 rect.left = x
                 rect.top = img[i][1]
-                self.array.insert(0, rect)
                 self.ventana.blit(image, rect)
                 self.resp.append(img[i][2])
                 x += 280
@@ -96,6 +97,26 @@ class Main_Class():
         except Exception, ex:
             print ex
 
+    def val_orden(self, posl):
+        ver = False
+        for x in range(4):
+            self.dic[x]=self.mt[x]
+        self.dic_letter[posl] = self.pos_letter
+        if(len(self.dic_letter)==4):
+            for x in range(4):
+                if (self.dic[x] == self.dic_letter[x]):
+                    ver = True
+                else:
+                    ver = False
+                    break
+            if ver:
+                self.print_font("Buen Trabajo",420,70)
+                self.principal()
+            else:
+                self.pos_letter = -1
+                self.print_font("Intente nuevamente",400,70)
+                self.dic_letter.clear()
+
     def print_font(self, text, x, y):
         try:
             texto = pygame.font.SysFont(self.font_type, self.font_size)
@@ -112,6 +133,10 @@ class Main_Class():
         except Exception, ex:
             print ex
 
+    def rosca(self, letter):
+        self.resp_font.append(letter)
+        self.validate()
+
     def detection_click(self):
         while True:
             while gtk.events_pending():
@@ -124,22 +149,25 @@ class Main_Class():
 
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     pos=pygame.mouse.get_pos()
-                    print pos
                     if self.array_rect[0].collidepoint(pos):
-                        self.resp_font.append("A")
-                        self.validate()
+                        self.val_orden(0)
+                        self.pos_letter += 1
+
 
                     if self.array_rect[1].collidepoint(pos):
-                        self.resp_font.append("B")
-                        self.validate()
+                        self.val_orden(1)
+                        self.pos_letter += 1
+
 
                     if self.array_rect[2].collidepoint(pos):
-                        self.resp_font.append("C")
-                        self.validate()
+                        self.val_orden(2)
+                        self.pos_letter += 1
+
 
                     if self.array_rect[3].collidepoint(pos):
-                        self.resp_font.append("D")
-                        self.validate()
+                        self.val_orden(3)
+                        self.pos_letter += 1
+
 
 if __name__=='__main__':
     Main_Class()
